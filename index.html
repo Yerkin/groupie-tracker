@@ -1,92 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Groupie Tracker</title>
+  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <style>    
-    /* Set black background color, white text and some padding */
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Add a gray background color and some padding to the footer */
     footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
+      background-color: #f2f2f2;
+      padding: 25px;
     }
-    body {
-      background-color: #3F5D7D;
+    
+    .col-sm-3 {
+      border: #454454;
     }
+
+    .img-circle {
+      max-width: 300px;
+      padding: 30px;
+    }
+    
   </style>
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="#">Logo</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="/">Artists</a></li>
-        <li><a href="relation">Relation</a></li>
-      </ul>
-      <form class="navbar-form navbar-right" role="search">
-        <div class="form-group input-group">
-          <input type="text" class="form-control" placeholder="Search..">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button">
-              <span class="glyphicon glyphicon-search"></span>
-            </button>
-          </span>        
-        </div>
-      </form>
 
-    </div>
-  </div>
-</nav>
-  
-<div class="container text-center">    
-  <div class="row">
+{{$API := .}}  
 
-    <div class="col-sm-9">
-    
 
-      {{range .}}
-      <div class="row">
-        <div class="col-sm-3">
-          <div class="well">
-           <p>{{.Name}}</p>
-           <img src="{{.Image}}" class="img-circle" height="100" width="100" alt="Avatar">
-          </div>
-        </div>
-        <div class="col-sm-9">
-          <div class="well">
-              <h3>Members :</h3>
-              {{range .Members}}
-            <p>{{.}}</p>
-                {{end}}
-                <br>
-            <h3>Creation Date: {{.CreationDate}}</h3>
-            <br>
-            <h3>First Album: {{.FirstAlbum}}</h3>
-          </div>
-        </div>
-      </div>
-      {{end}}
-      
-    </div>
-
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>Groupie Tracker</h1>      
   </div>
 </div>
 
+<div class="container-fluid bg-3 text-center">    
+  <h3>Search Most Popular Artists</h3><br>
+</div>
+
+
+
+<div class="container-fluid bg-3 text-center">
+<form action="/" method="POST">
+  <br>
+  <input id="sch" class="search" type="text" name="toSearch" list="list" placeholder="Artist">
+  <datalist id="list" name="case">
+  {{range $i, $v := .GroupieArtist}}
+  <option>{{(index $API.GroupieArtist $i).Name}} // Artists</option>
+  {{end}} {{range $i, $v := .GroupieArtist}}{{range .Members}}
+  <option>{{.}} // Member</option>
+  {{end}}{{end}} {{range $i, $v := .GroupieRelation.RIndex}}{{range $key, $value := $v.DatesLocations}} 
+  <option>{{$key}} // Location</option>
+    {{end}}{{end}} {{range $i, $v := .GroupieArtist}}
+    <option>{{(index $API.GroupieArtist $i).FirstAlbum}} // First Album</option>
+    {{end}} {{range $i, $v := .GroupieArtist}}
+    <option>{{(index $API.GroupieArtist $i).CreationDate}} // CreationDate</option>
+    {{end}}
+  </datalist>
+  <button type="submit">Search</button>
+  </form>
+</div>
+<br>
+
+
 <footer class="container-fluid text-center">
-  <p>Create by Danonika</p>
+  <p>Nur-Sultan 2020</p>
 </footer>
 
 </body>

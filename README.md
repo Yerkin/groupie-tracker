@@ -1,2 +1,3 @@
-# groupie-tracker
-GT
+# gt
+
+it is a groupie tracker
